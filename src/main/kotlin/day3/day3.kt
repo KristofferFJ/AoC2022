@@ -1,8 +1,8 @@
 package day3
 
 import utils.FileReader
-import utils.LetterUtil
-import utils.ListUtils
+import utils.LetterUtil.Companion.getLetterOrdinal
+import utils.ListUtils.Companion.partitionListsInGroupsOfSize
 
 class Rucksack(val left: List<Char>, val right: List<Char>) {
     fun getIntersection(): Char {
@@ -30,16 +30,16 @@ fun getRucksacks(): List<Rucksack> {
 }
 
 fun getGroups(): List<Group> {
-    return ListUtils.partitionListsInGroupsOfSize(getRucksacks(), 3).map { Group(it[0], it[1], it[2]) }
+    return getRucksacks().partitionListsInGroupsOfSize(3).map { Group(it[0], it[1], it[2]) }
 }
 
 
 fun partOne() {
-    println(getRucksacks().sumOf { LetterUtil.getLetterOrdinal(it.getIntersection()) })
+    println(getRucksacks().sumOf { it.getIntersection().getLetterOrdinal() })
 }
 
 fun partTwo() {
-    println(getGroups().sumOf { LetterUtil.getLetterOrdinal(it.getIntersection()) })
+    println(getGroups().sumOf { it.getIntersection().getLetterOrdinal() })
 }
 
 fun main() {

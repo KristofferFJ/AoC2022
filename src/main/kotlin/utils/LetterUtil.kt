@@ -7,11 +7,11 @@ class LetterUtil {
             'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
         )
 
-        fun getLetterOrdinal(char: Char): Int {
-            if (char.isUpperCase()) {
-                return LETTERS.indexOf(char.lowercaseChar()) + 27
+        fun Char.getLetterOrdinal(): Int {
+            if (this.isUpperCase()) {
+                return LETTERS.indexOf(this.lowercaseChar()) + 27
             }
-            return LETTERS.indexOf(char) + 1
+            return LETTERS.indexOf(this) + 1
         }
     }
 }
