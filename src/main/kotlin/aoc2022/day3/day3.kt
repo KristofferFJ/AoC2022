@@ -1,4 +1,4 @@
-package day3
+package aoc2022.day3
 
 import utils.FileReader
 import utils.LetterUtil.Companion.getLetterValue
@@ -23,7 +23,7 @@ class Group(val rucksack1: Rucksack, val rucksack2: Rucksack, val rucksack3: Ruc
 }
 
 fun getRucksacks(): List<Rucksack> {
-    return FileReader.readAsLines("day3").map {
+    return FileReader.readAsLines("aoc2022/day3").map {
         val size = it.length
         Rucksack(it.substring(0, size / 2).toList(), it.substring(size / 2).toList())
     }

@@ -1,9 +1,9 @@
-package day2
+package aoc2022.day2
 
 import utils.FileReader
 
 fun getRounds(): List<List<String>> {
-    return FileReader.readAsLines("day2").map { it.split(" ") }
+    return FileReader.readAsLines("aoc2022/day2").map { it.split(" ") }
 }
 
 // X og A er rock, 1 point

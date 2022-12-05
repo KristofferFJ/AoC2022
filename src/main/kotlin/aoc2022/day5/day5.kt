@@ -1,7 +1,62 @@
-package day5
+package aoc2022.day5
 
 import utils.ListUtils.Companion.removeSlice
 import utils.ListUtils.Companion.transpose
+
+fun getTowers(): List<MutableList<String>> {
+    val towers = "" +
+            "[N]     [Q]         [N]            \n" +
+            "[R]     [F] [Q]     [G] [M]        \n" +
+            "[J]     [Z] [T]     [R] [H] [J]    \n" +
+            "[T] [H] [G] [R]     [B] [N] [T]    \n" +
+            "[Z] [J] [J] [G] [F] [Z] [S] [M]    \n" +
+            "[B] [N] [N] [N] [Q] [W] [L] [Q] [S]\n" +
+            "[D] [S] [R] [V] [T] [C] [C] [N] [G]\n" +
+            "[F] [R] [C] [F] [L] [Q] [F] [D] [P]"
+
+    val transposed = towers.replace("[", "").replace("]", "").replace("    ", ",").replace(" ", ",").split("\n")
+        .map { it.split(",") }.transpose()
+    transposed.map { it.reverse() }
+    transposed.forEach { it.removeIf { it.isBlank() } }
+    return transposed
+}
+
+data class Instruction(val amount: Int, val fromTower: Int, val toTower: Int)
+
+fun getInstructions(): List<Instruction> {
+    return instructions.split("\n").map { it.substring(5).split(" from | to ".toRegex()) }
+        .map { Instruction(it[0].toInt(), it[1].toInt() - 1, it[2].toInt() - 1) }
+}
+
+fun doInstruction(instruction: Instruction, towers: List<MutableList<String>>) {
+    val removedSlice = towers[instruction.fromTower].removeSlice(instruction.amount)
+    towers[instruction.toTower].addAll(removedSlice)
+}
+
+fun doInstructionMaintainingOrder(instruction: Instruction, towers: List<MutableList<String>>) {
+    val removedSlice = towers[instruction.fromTower].removeSlice(instruction.amount)
+    removedSlice.reverse()
+    towers[instruction.toTower].addAll(removedSlice)
+}
+
+fun partOne(): String {
+    val towers = getTowers()
+    val instructions = getInstructions()
+    instructions.forEach { doInstruction(it, towers) }
+    return towers.joinToString("") { it.last() }
+}
+
+fun partTwo(): String {
+    val towers = getTowers()
+    val instructions = getInstructions()
+    instructions.forEach { doInstructionMaintainingOrder(it, towers) }
+    return towers.joinToString("") { it.last() }
+}
+
+fun main() {
+    println(partOne())
+    println(partTwo())
+}
 
 val instructions = "" +
         "move 3 from 9 to 4\n" +
@@ -507,56 +562,3 @@ val instructions = "" +
         "move 2 from 5 to 2\n" +
         "move 6 from 7 to 6\n" +
         "move 3 from 6 to 9"
-
-fun getTowers(): List<MutableList<String>> {
-    val towers = "" +
-            "[N]     [Q]         [N]            \n" +
-            "[R]     [F] [Q]     [G] [M]        \n" +
-            "[J]     [Z] [T]     [R] [H] [J]    \n" +
-            "[T] [H] [G] [R]     [B] [N] [T]    \n" +
-            "[Z] [J] [J] [G] [F] [Z] [S] [M]    \n" +
-            "[B] [N] [N] [N] [Q] [W] [L] [Q] [S]\n" +
-            "[D] [S] [R] [V] [T] [C] [C] [N] [G]\n" +
-            "[F] [R] [C] [F] [L] [Q] [F] [D] [P]"
-
-    val transposed = towers.replace("[", "").replace("]", "").replace("    ", ",").replace(" ",",").split("\n").map { it.split(",") }.transpose()
-    transposed.map { it.reverse() }
-    transposed.forEach { it.removeIf { it.isBlank() } }
-    return transposed
-}
-
-data class Instruction(val amount: Int, val fromTower: Int, val toTower: Int)
-
-fun getInstructions(): List<Instruction> {
-    return instructions.split("\n").map { it.substring(5).split(" from | to ".toRegex()) }.map { Instruction(it[0].toInt(), it[1].toInt() - 1, it[2].toInt() - 1) }
-}
-
-fun doInstruction(instruction: Instruction, towers: List<MutableList<String>>) {
-    val removedSlice = towers[instruction.fromTower].removeSlice(instruction.amount)
-    towers[instruction.toTower].addAll(removedSlice)
-}
-
-fun doInstructionMaintainingOrder(instruction: Instruction, towers: List<MutableList<String>>) {
-    val removedSlice = towers[instruction.fromTower].removeSlice(instruction.amount)
-    removedSlice.reverse()
-    towers[instruction.toTower].addAll(removedSlice)
-}
-
-fun partOne(): String {
-    val towers = getTowers()
-    val instructions = getInstructions()
-    instructions.forEach { doInstruction(it, towers) }
-    return towers.joinToString("") { it.last() }
-}
-
-fun partTwo(): String {
-    val towers = getTowers()
-    val instructions = getInstructions()
-    instructions.forEach { doInstructionMaintainingOrder(it, towers) }
-    return towers.joinToString("") { it.last() }
-}
-
-fun main() {
-    println(partOne())
-    println(partTwo())
-}

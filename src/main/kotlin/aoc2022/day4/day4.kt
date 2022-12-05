@@ -1,8 +1,8 @@
-package day4
+package aoc2022.day4
 
 import utils.FileReader
 
-val sections: List<Section> = FileReader.readAsLines("day4").map {
+val sections: List<Section> = FileReader.readAsLines("aoc2022/day4").map {
     it.split(",").map {
         it.split("-")
             .map { it.toInt() }
