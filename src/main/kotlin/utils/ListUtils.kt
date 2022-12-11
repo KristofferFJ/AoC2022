@@ -30,5 +30,17 @@ class ListUtils {
             }
             return removedSlice
         }
+
+        fun List<Long>.prod(): Long {
+            var prod: Long = 1
+            this.forEach { prod *= it }
+            return prod
+        }
+
+        fun List<Int>.prod(): Int {
+            var prod = 1
+            this.forEach { prod *= it }
+            return prod
+        }
     }
 }
