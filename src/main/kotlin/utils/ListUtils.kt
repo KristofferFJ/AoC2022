@@ -9,6 +9,21 @@ class ListUtils {
             }.map { it.value.map { it.value } }
         }
 
+        fun <T> List<T>.partitionByElement(element: T): List<List<T>> {
+            val lists = mutableListOf<MutableList<T>>()
+            var currentList = mutableListOf<T>()
+            for(item in this) {
+                if(item == element) {
+                    lists.add(currentList)
+                    currentList = mutableListOf()
+                } else {
+                    currentList.add(item)
+                }
+            }
+            lists.add(currentList)
+            return lists
+        }
+
         fun <T> List<List<T>>.transpose(): MutableList<MutableList<T>> {
             val ret: MutableList<MutableList<T>> = mutableListOf()
             val length = this[0].size
