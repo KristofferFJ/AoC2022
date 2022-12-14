@@ -63,16 +63,7 @@ fun compareValues(leftValue: String, rightValue: String): Boolean? {
     if (rightValue.isInt()) {
         return compareValues(leftValue.toLists(), listOf(rightValue))
     }
-    val leftList = leftValue.toLists()
-    val rightList = rightValue.toLists()
-    leftList.forEachIndexed { index, left ->
-        if (index > rightList.size - 1) return false
-        if (compareValues(left, rightList[index]) != null) {
-            return compareValues(left, rightList[index])
-        }
-    }
-    if(rightList.size > leftList.size) return true
-    return null
+    return compareValues(leftValue.toLists(), rightValue.toLists())
 }
 
 val inputTest = """
