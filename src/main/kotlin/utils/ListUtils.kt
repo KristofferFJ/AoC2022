@@ -57,5 +57,9 @@ class ListUtils {
             this.forEach { prod *= it }
             return prod
         }
+
+        fun List<List<String>>.printGrid(): String {
+            return this.joinToString("\n") { it.joinToString("") }
+        }
     }
 }
