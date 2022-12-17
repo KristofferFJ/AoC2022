@@ -38,16 +38,6 @@ fun main() {
         throw Exception("what")
     }
 
-    fun findStart(): Position {
-        grid.forEachIndexed { indexRow, chars ->
-            chars.forEachIndexed { indexColumn, char ->
-                if (char == 'S') return Position(indexColumn, indexRow)
-            }
-        }
-        throw Exception("what")
-    }
-
-
     fun findStartPoints(): List<Position> {
         return grid.flatMapIndexed { indexRow, chars ->
             chars.mapIndexedNotNull { indexColumn, char ->
