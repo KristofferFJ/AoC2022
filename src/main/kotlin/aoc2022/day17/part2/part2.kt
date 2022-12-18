@@ -1,25 +1,30 @@
-package aoc2022.day17.part1
+package aoc2022.day17.part2
 
 import utils.ListUtils.Companion.printGrid
+import java.util.concurrent.atomic.AtomicInteger
 
-val chamber: MutableList<MutableList<String>> = IntRange(0, 3500).map {
+val chamber: MutableList<MutableList<String>> = IntRange(0, 100000).map {
     IntRange(0, 6).map { " " }.toMutableList()
 }.toMutableList()
 var jetIndex = 0
 
+data class Pair(val jetIndexModulo: Int, val shape: Int)
+
 fun main() {
-    IntRange(1, 2022).forEachIndexed { index, i ->
+    val modulus = mutableMapOf<Pair, AtomicInteger>()
+    IntRange(1, TEST.length * 100000).forEachIndexed { index, i ->
+        modulus.getOrPut(Pair(index % 5, jetIndex % TEST.length)) { AtomicInteger(0) }.incrementAndGet()
         val spawnHeight = findSpawnHeight()
-        spawnShape(index, spawnHeight)
-        fallRock()
+        spawnShape(index % 5, spawnHeight)
+        fallRock(index % 5)
     }
     println(chamber.reversed().printGrid())
     println(findSpawnHeight() - 3)
 }
 
-fun fallRock() {
+fun fallRock(shape: Int) {
     while (true) {
-        val direction = if (INPUT[jetIndex % INPUT.length] == '<') -1 else 1
+        val direction = if (TEST[jetIndex % TEST.length] == '<') -1 else 1
         useJets(direction)
         jetIndex += 1
         if (!drop()) {
@@ -91,24 +96,27 @@ fun useJets(direction: Int) {
 }
 
 fun spawnShape(shapeNumber: Int, spawnHeight: Int) {
-    when (shapeNumber % 5) {
+    when (shapeNumber) {
         0 -> chamber[spawnHeight] = mutableListOf(" ", " ", "@", "@", "@", "@", " ")
         1 -> {
             chamber[spawnHeight + 2] = mutableListOf(" ", " ", " ", "@", " ", " ", " ")
             chamber[spawnHeight + 1] = mutableListOf(" ", " ", "@", "@", "@", " ", " ")
             chamber[spawnHeight + 0] = mutableListOf(" ", " ", " ", "@", " ", " ", " ")
         }
+
         2 -> {
             chamber[spawnHeight + 2] = mutableListOf(" ", " ", " ", " ", "@", " ", " ")
             chamber[spawnHeight + 1] = mutableListOf(" ", " ", " ", " ", "@", " ", " ")
             chamber[spawnHeight + 0] = mutableListOf(" ", " ", "@", "@", "@", " ", " ")
         }
+
         3 -> {
             chamber[spawnHeight + 3] = mutableListOf(" ", " ", "@", " ", " ", " ", " ")
             chamber[spawnHeight + 2] = mutableListOf(" ", " ", "@", " ", " ", " ", " ")
             chamber[spawnHeight + 1] = mutableListOf(" ", " ", "@", " ", " ", " ", " ")
             chamber[spawnHeight + 0] = mutableListOf(" ", " ", "@", " ", " ", " ", " ")
         }
+
         4 -> {
             chamber[spawnHeight + 1] = mutableListOf(" ", " ", "@", "@", " ", " ", " ")
             chamber[spawnHeight + 0] = mutableListOf(" ", " ", "@", "@", " ", " ", " ")

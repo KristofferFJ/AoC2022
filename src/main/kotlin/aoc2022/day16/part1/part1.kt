@@ -14,7 +14,10 @@ fun main() {
             createRoutes(it, it.size, newNewPaths)
             newNewPaths
         }.sortedBy { it.pressure() }.reversed().filter { it.size > 0 }
-        if(extendedPaths.isEmpty()) {}
+        if(extendedPaths.isEmpty()) {
+            startPath.add(bestPaths.first()[startPath.size])
+            return@repeat
+        }
         val top20ExtendPaths = extendedPaths.subList(0, minOf(20, extendedPaths.size - 1))
         val furtherExtendedPaths = top20ExtendPaths.flatMap {
             val newNewPaths = mutableListOf(mutableListOf<Action>())
