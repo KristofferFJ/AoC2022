@@ -101,7 +101,7 @@ data class Proposition(val from: Field, val to: Point)
 
 fun main() {
     var index = 0
-    while(true) {
+    while (true) {
         val propositions = grid.getFields().filter { it.value == "#" }.mapNotNull {
             makeProposition(it, index)
         }
@@ -113,7 +113,7 @@ fun main() {
         println(grid)
         index += 1
 
-        if(nonDuplicatePositions.size == 0) {
+        if (nonDuplicatePositions.size == 0) {
             println("round=" + index)
             break
         }
@@ -121,34 +121,26 @@ fun main() {
 }
 
 fun makeProposition(field: Field, iteration: Int): Proposition? {
-    val x = field.x;
+    val x = field.x
     val y = field.y
     fun checkNorth(): Boolean {
-        return grid.get(x - 1, y - 1).value == "." && grid.get(x, y - 1).value == "." && grid.get(
-            x + 1,
-            y - 1
-        ).value == "."
+        return grid.get(x - 1, y - 1).value == "." && grid.get(x, y - 1).value == "."
+                && grid.get(x + 1, y - 1).value == "."
     }
 
     fun checkSouth(): Boolean {
-        return grid.get(x - 1, y + 1).value == "." && grid.get(x, y + 1).value == "." && grid.get(
-            x + 1,
-            y + 1
-        ).value == "."
+        return grid.get(x - 1, y + 1).value == "." && grid.get(x, y + 1).value == "."
+                && grid.get(x + 1, y + 1).value == "."
     }
 
     fun checkWest(): Boolean {
-        return grid.get(x - 1, y - 1).value == "." && grid.get(x - 1, y).value == "." && grid.get(
-            x - 1,
-            y + 1
-        ).value == "."
+        return grid.get(x - 1, y - 1).value == "." && grid.get(x - 1, y).value == "."
+                && grid.get(x - 1, y + 1).value == "."
     }
 
     fun checkEast(): Boolean {
-        return grid.get(x + 1, y - 1).value == "." && grid.get(x + 1, y).value == "." && grid.get(
-            x + 1,
-            y + 1
-        ).value == "."
+        return grid.get(x + 1, y - 1).value == "." && grid.get(x + 1, y).value == "."
+                && grid.get(x + 1, y + 1).value == "."
     }
 
     if (checkNorth() && checkSouth() && checkWest() && checkEast()) return null
