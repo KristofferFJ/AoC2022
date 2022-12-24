@@ -61,5 +61,11 @@ class ListUtils {
         fun List<List<String>>.printGrid(): String {
             return this.joinToString("\n") { it.joinToString("") }
         }
+
+        fun <T> MutableList<T>.addReturn(value: T): MutableList<T> {
+            val newList = this.toMutableList()
+            newList.add(value)
+            return newList
+        }
     }
 }

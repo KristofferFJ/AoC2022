@@ -1,13 +1,16 @@
 package utils
 
-data class Point(val x: Int, val y: Int)
+data class Point(val x: Int, val y: Int) {
+    fun addX(value: Int): Point = Point(x + value, y)
+    fun addY(value: Int): Point = Point(x, y + value)
+}
+
 data class Field(val point: Point, var value: String) {
     val x = point.x
     val y = point.y
 }
-
 class Grid(stringInput: String) {
-    private val rows: MutableList<MutableList<Field>> = stringInput.split("\n").mapIndexed { rowIndex, row ->
+    val rows: MutableList<MutableList<Field>> = stringInput.split("\n").mapIndexed { rowIndex, row ->
         row.toList().mapIndexed { columnIndex, value ->
             Field(Point(columnIndex, rowIndex), value.toString())
         }.toMutableList()
@@ -18,8 +21,12 @@ class Grid(stringInput: String) {
     private fun getRowCount() = rows.size
     private fun getMinX() = rows[0][0].x
     private fun getMinY() = rows[0][0].y
-    private fun getMaxX() = rows[getRowCount() - 1][getColumnCount() - 1].x
-    private fun getMaxY() = rows[getRowCount() - 1][getColumnCount() - 1].y
+    private fun getMaxX() = rows[getRowCount() - 1][getColumnCount() - 1].point.x
+    private fun getMaxY() = rows[getRowCount() - 1][getColumnCount() - 1].point.y
+
+    fun at(point: Point): Field {
+        return get(point.x, point.y)
+    }
 
     fun get(x: Int, y: Int): Field {
         expandGridIfNecessary(x, y)
@@ -44,12 +51,12 @@ class Grid(stringInput: String) {
         if (x > getMaxX()) {
             val range = IntRange(getMaxX() + 1, x)
             rows.forEach { row ->
-                row.addAll(range.map { Field(Point(it, row[0].y), ".") })
+                row.addAll(range.map { Field(Point(it, row[0].point.y), ".") })
             }
         } else {
             val range = IntRange(x, getMinX() - 1)
             rows.forEach { row ->
-                row.addAll(0, range.map { Field(Point(it, row[0].y), ".") })
+                row.addAll(0, range.map { Field(Point(it, row[0].point.y), ".") })
             }
         }
     }
@@ -72,12 +79,5 @@ class Grid(stringInput: String) {
         return rows.joinToString("") {
             "${it.joinToString("") { it.value }}\n"
         }
-    }
-
-    fun printGrid(): String {
-        val topRow = rows[0].map { it.x }.joinToString("")
-        return "  ${topRow}\n" + rows.map {
-            "${it[0].y} ${it.map { it.value }.joinToString("")}\n"
-        }.joinToString("")
     }
 }

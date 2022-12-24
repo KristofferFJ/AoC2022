@@ -14,6 +14,10 @@ class StringUtils {
             }
         }
 
+        fun String.isIn(list: List<String>): Boolean {
+            return list.contains(this)
+        }
+
         fun String.toLists(): List<String> {
             val lists = this.substring(1, this.length - 1)
             val elements = mutableListOf<String>()
