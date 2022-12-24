@@ -1,6 +1,7 @@
 package aoc2022.day24.part2
 
 import utils.Grid
+import utils.ListUtils.Companion.removeDuplicates
 import utils.Point
 import utils.StringUtils.Companion.isIn
 
@@ -35,7 +36,6 @@ private const val INPUT =
 ######################################################################################################################################################.#"""
 
 val grid = Grid(INPUT)
-val gridCopy = Grid(TEST)
 val length = grid.rows[0].size - 1
 val height = grid.rows.size - 1
 val startPoint = Point(1, 0)
@@ -44,55 +44,35 @@ val endPoint = Point(length - 1, height)
 data class Moves(
     val moves: Int = 0,
     val position: Point = startPoint,
-    var atEndpoint: Boolean = false,
+    var atEnd: Boolean = false,
     var atStart: Boolean = false
-) {
-    fun getStatus(): Status {
-        return Status(atEndpoint, atStart, position)
-    }
-}
-
-data class Status(
-    val atEndpoint: Boolean,
-    val atStart: Boolean,
-    val point: Point
 )
 
 val movesList = mutableListOf(Moves())
 fun main() {
     grid.getFields().filter { it.value.isIn(blizzardSymbols) }.forEach { it.value = "." }
-    gridCopy.getFields().filter { it.value.isIn(blizzardSymbols) }.forEach { it.value = "." }
-    var finished = false
-    while (!finished) {
+    while (true) {
         val currentMoves = movesList.toList()
         moveBlizzards()
         currentMoves.forEach {
             it.doRound()
-            val groupedMoves = movesList.groupBy { it.getStatus() }.filter { it.value.size > 1 }
-            groupedMoves.keys.forEach { duplicated ->
-                movesList.removeAll {
-                    it.position == duplicated.point && it.atStart == duplicated.atStart && it.atEndpoint == duplicated.atEndpoint
-                }
-            }
-            groupedMoves.values.forEach {
-                movesList.add(it[0])
-            }
+            movesList.removeDuplicates { listOf(it.atStart, it.atEnd, it.position) }
         }
 
         val atEndpoint = movesList.filter { it.position == endPoint }
         if (atEndpoint.isNotEmpty()) {
-            atEndpoint.forEach { it.atEndpoint = true }
-            movesList.removeAll { !it.atEndpoint }
+            atEndpoint.forEach { it.atEnd = true }
+            movesList.removeAll { !it.atEnd }
         }
-        val atStart = movesList.filter { it.position == startPoint && it.atEndpoint }
+        val atStart = movesList.filter { it.position == startPoint && it.atEnd }
         if (atStart.isNotEmpty()) {
             atStart.forEach { it.atStart = true }
             movesList.removeAll { !it.atStart }
         }
         if (movesList.any { it.atStart && it.position == endPoint }) {
-            finished = true
-            println(movesList.first { it.atEndpoint && it.position == startPoint })
-            println(movesList.first { it.atEndpoint && it.position == startPoint }.moves)
+            println(movesList.first { it.atEnd && it.position == startPoint })
+            println(movesList.first { it.atEnd && it.position == startPoint }.moves)
+            break
         }
     }
 

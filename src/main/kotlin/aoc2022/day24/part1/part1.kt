@@ -2,6 +2,7 @@ package aoc2022.day24.part1
 
 import utils.Grid
 import utils.ListUtils.Companion.addReturn
+import utils.ListUtils.Companion.removeDuplicates
 import utils.Point
 import utils.StringUtils.Companion.isIn
 
@@ -36,7 +37,6 @@ private const val INPUT =
 ######################################################################################################################################################.#"""
 
 val grid = Grid(INPUT)
-val gridCopy = Grid(TEST)
 val length = grid.rows[0].size - 1
 val height = grid.rows.size - 1
 val endPoint = Point(length - 1, height)
@@ -50,11 +50,7 @@ fun main() {
         currentMoves.forEach {
             if (it.doRound()) finished = true
             moves.removeAll { it.size < moves.maxBy { it.size }.size }
-            val groupedMoves = moves.groupBy { it.last() }.filter { it.value.size == 2 }
-            groupedMoves.keys.forEach { duplicated -> moves.removeAll { it.last() == duplicated } }
-            groupedMoves.values.forEach {
-                moves.add(it[0])
-            }
+            moves.removeDuplicates { it.last() }
         }
     }
     println(moves.filter { it.last() == endPoint })

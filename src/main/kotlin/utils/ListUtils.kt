@@ -1,5 +1,7 @@
 package utils
 
+import aoc2022.day24.part2.movesList
+
 
 class ListUtils {
     companion object {
@@ -12,8 +14,8 @@ class ListUtils {
         fun <T> List<T>.partitionByElement(element: T): List<List<T>> {
             val lists = mutableListOf<MutableList<T>>()
             var currentList = mutableListOf<T>()
-            for(item in this) {
-                if(item == element) {
+            for (item in this) {
+                if (item == element) {
                     lists.add(currentList)
                     currentList = mutableListOf()
                 } else {
@@ -66,6 +68,16 @@ class ListUtils {
             val newList = this.toMutableList()
             newList.add(value)
             return newList
+        }
+
+        fun <T> MutableList<T>.removeDuplicates(duplicateCheck: (T) -> Any) {
+            val grouped = this.groupBy { duplicateCheck(it) }.filter { it.value.size > 1 }
+            grouped.values.forEach { duplicates ->
+                duplicates.forEach { this.remove(it) }
+            }
+            grouped.values.forEach {
+                this.add(it[0])
+            }
         }
     }
 }
