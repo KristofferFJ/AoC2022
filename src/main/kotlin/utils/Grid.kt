@@ -10,7 +10,7 @@ data class Field(val point: Point, var value: String) {
     val y = point.y
 }
 class Grid(stringInput: String) {
-    val rows: MutableList<MutableList<Field>> = stringInput.split("\n").mapIndexed { rowIndex, row ->
+    var rows: MutableList<MutableList<Field>> = stringInput.split("\n").mapIndexed { rowIndex, row ->
         row.toList().mapIndexed { columnIndex, value ->
             Field(Point(columnIndex, rowIndex), value.toString())
         }.toMutableList()
@@ -24,8 +24,8 @@ class Grid(stringInput: String) {
     private fun getMaxX() = rows[getRowCount() - 1][getColumnCount() - 1].point.x
     private fun getMaxY() = rows[getRowCount() - 1][getColumnCount() - 1].point.y
 
-    fun at(point: Point): Field {
-        return get(point.x, point.y)
+    fun at(point: Point): String {
+        return get(point.x, point.y).value
     }
 
     fun get(x: Int, y: Int): Field {
@@ -76,7 +76,7 @@ class Grid(stringInput: String) {
     }
 
     override fun toString(): String {
-        return rows.joinToString("") {
+        return rows.reversed().joinToString("") {
             "${it.joinToString("") { it.value }}\n"
         }
     }

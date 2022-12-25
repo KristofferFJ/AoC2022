@@ -71,7 +71,7 @@ private fun List<Point>.doRound(): Boolean {
 
 private fun Point.isClear(): Boolean {
     if (this.y == -1) return false
-    return grid.at(this).value == "." && blizzards.none { it.x == this.x && it.y == this.y }
+    return grid.at(this) == "." && blizzards.none { it.x == this.x && it.y == this.y }
 }
 
 data class Blizzard(var x: Int, var y: Int, var value: String)

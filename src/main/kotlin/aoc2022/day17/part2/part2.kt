@@ -1,131 +1,97 @@
 package aoc2022.day17.part2
 
-import utils.ListUtils.Companion.printGrid
-import java.util.concurrent.atomic.AtomicInteger
+import utils.Grid
+import utils.Point
+import kotlin.math.max
 
-val chamber: MutableList<MutableList<String>> = IntRange(0, 100000).map {
-    IntRange(0, 6).map { " " }.toMutableList()
-}.toMutableList()
 var jetIndex = 0
-
-data class Pair(val jetIndexModulo: Int, val shape: Int)
-
+val chamber = Grid(".........")
 fun main() {
-    val modulus = mutableMapOf<Pair, AtomicInteger>()
-    IntRange(1, TEST.length * 100000).forEachIndexed { index, i ->
-        modulus.getOrPut(Pair(index % 5, jetIndex % TEST.length)) { AtomicInteger(0) }.incrementAndGet()
-        val spawnHeight = findSpawnHeight()
-        spawnShape(index % 5, spawnHeight)
-        fallRock(index % 5)
+    var highestPoint = 0
+    var atIndex = 0
+    var shapes = 0
+    LongRange(1, 1757 + 2 * 1755 + 1403).forEachIndexed { index, i ->
+        if(chamber.rows.size > 1000) {
+            chamber.rows = chamber.rows.subList(250, chamber.rows.size)
+        }
+        if(jetIndex % INPUT.length == 0 && index % 5 == 0) {
+            println(chamber)
+        }
+        //did the rest by hand. After the first iteration of jets, tower was 2722 high and used 1757 shapes.
+        // Then for every iteration it would use 1755 shapes for 2747 height. Leaving remainder of 1403 shapes
+        // which adds height of 10399 - 8216.
+        if(jetIndex % INPUT.length == 0) {
+            println("height=" + (highestPoint - atIndex))
+            println("shapes=" + (index - shapes))
+            println("highestPointNow=$highestPoint")
+            println("")
+            atIndex = highestPoint
+            shapes = index
+        }
+        val shape = spawnShape(index, highestPoint)
+        highestPoint = max(fallRock(shape), highestPoint)
     }
-    println(chamber.reversed().printGrid())
-    println(findSpawnHeight() - 3)
+    print(highestPoint)
 }
 
-fun fallRock(shape: Int) {
+fun fallRock(shape: List<Point>): Int {
+    var movingShape = shape
     while (true) {
-        val direction = if (TEST[jetIndex % TEST.length] == '<') -1 else 1
-        useJets(direction)
+        val direction = if (INPUT[jetIndex % INPUT.length] == '<') -1 else 1
+        movingShape = useJets(movingShape, direction)
         jetIndex += 1
-        if (!drop()) {
-            turnToStone()
-            return
+        if (ableToDrop(movingShape)) {
+            movingShape = movingShape.map { it.addY(-1) }
+            continue
         }
+        turnToStone(movingShape)
+        return movingShape.maxOf { it.y } + 1
     }
 }
 
-private fun turnToStone() {
-    chamber.forEachIndexed { rowIndex, row ->
-        row.forEachIndexed { columnIndex, stone ->
-            if (stone == "@") chamber[rowIndex][columnIndex] = "#"
-        }
-    }
+private fun turnToStone(shape: List<Point>) {
+    shape.forEach { chamber.set(it.x, it.y, "#") }
 }
 
-fun drop(): Boolean {
-    chamber.forEachIndexed { rowIndex, row ->
-        if (!row.any { it == "@" }) return@forEachIndexed
-        if (rowIndex == 0) return false
-        row.forEachIndexed { index, stone ->
-            if (stone != "@") return@forEachIndexed
-            if (chamber[rowIndex - 1][index] == "#") {
-                return false
-            }
-        }
-        row.forEachIndexed { columnIndex, stone ->
-            if (stone == "@") {
-                chamber[rowIndex - 1][columnIndex] = "@"
-                chamber[rowIndex][columnIndex] = " "
-            }
-        }
-    }
-    return true
+fun ableToDrop(shape: List<Point>): Boolean {
+    return shape.all { chamber.at(it.addY(-1)) == "." } && shape.all { it.y > 0 }
 }
 
-fun useJets(direction: Int) {
-    chamber.forEachIndexed { rowIndex, row ->
-        if (!row.any { it == "@" }) return@forEachIndexed
-        row.forEachIndexed { index, stone ->
-            if (stone != "@") return@forEachIndexed
-            if (direction == 1 && (index == 6 || row[index + 1] == "#")) {
-                return
-            }
-            if (direction == -1 && (index == 0 || row[index - 1] == "#")) {
-                return
-            }
-        }
-    }
-    chamber.forEachIndexed { rowIndex, row ->
-        if (direction == 1) {
-            row.reversed().forEachIndexed { columnIndex, stone ->
-                if (stone == "@") {
-                    chamber[rowIndex][6 - columnIndex + 1] = "@"
-                    chamber[rowIndex][6 - columnIndex] = " "
-                }
-            }
-        }
-        if (direction == -1) {
-            row.forEachIndexed { columnIndex, stone ->
-                if (stone == "@") {
-                    chamber[rowIndex][columnIndex - 1] = "@"
-                    chamber[rowIndex][columnIndex] = " "
-                }
-            }
-        }
-    }
+val edges = listOf(0, 8)
+fun useJets(shape: List<Point>, direction: Int): List<Point> {
+    if (shape.any { it.x + direction in edges || chamber.at(it.addX(direction)) == "#" }) return shape
+    return shape.map { it.addX(direction) }
 }
 
-fun spawnShape(shapeNumber: Int, spawnHeight: Int) {
-    when (shapeNumber) {
-        0 -> chamber[spawnHeight] = mutableListOf(" ", " ", "@", "@", "@", "@", " ")
-        1 -> {
-            chamber[spawnHeight + 2] = mutableListOf(" ", " ", " ", "@", " ", " ", " ")
-            chamber[spawnHeight + 1] = mutableListOf(" ", " ", "@", "@", "@", " ", " ")
-            chamber[spawnHeight + 0] = mutableListOf(" ", " ", " ", "@", " ", " ", " ")
-        }
+fun spawnShape(shapeNumber: Int, height: Int): List<Point> {
+    return when (shapeNumber % 5) {
+        0 -> mutableListOf(Point(3, 3 + height), Point(4, 3 + height), Point(5, 3 + height), Point(6, 3 + height))
+        1 -> mutableListOf(
+            Point(4, 3 + height),
+            Point(3, 4 + height), Point(4, 4 + height), Point(5, 4 + height),
+            Point(4, 5 + height),
+        )
 
-        2 -> {
-            chamber[spawnHeight + 2] = mutableListOf(" ", " ", " ", " ", "@", " ", " ")
-            chamber[spawnHeight + 1] = mutableListOf(" ", " ", " ", " ", "@", " ", " ")
-            chamber[spawnHeight + 0] = mutableListOf(" ", " ", "@", "@", "@", " ", " ")
-        }
+        2 -> mutableListOf(
+            Point(5, 5 + height),
+            Point(5, 4 + height),
+            Point(5, 3 + height), Point(4, 3 + height), Point(3, 3 + height)
+        )
 
-        3 -> {
-            chamber[spawnHeight + 3] = mutableListOf(" ", " ", "@", " ", " ", " ", " ")
-            chamber[spawnHeight + 2] = mutableListOf(" ", " ", "@", " ", " ", " ", " ")
-            chamber[spawnHeight + 1] = mutableListOf(" ", " ", "@", " ", " ", " ", " ")
-            chamber[spawnHeight + 0] = mutableListOf(" ", " ", "@", " ", " ", " ", " ")
-        }
+        3 -> mutableListOf(
+            Point(3, 6 + height),
+            Point(3, 5 + height),
+            Point(3, 4 + height),
+            Point(3, 3 + height)
+        )
 
-        4 -> {
-            chamber[spawnHeight + 1] = mutableListOf(" ", " ", "@", "@", " ", " ", " ")
-            chamber[spawnHeight + 0] = mutableListOf(" ", " ", "@", "@", " ", " ", " ")
-        }
+        4 -> mutableListOf(
+            Point(3, 4 + height), Point(4, 4 + height),
+            Point(3, 3 + height), Point(4, 3 + height)
+        )
+
+        else -> throw Exception("")
     }
-}
-
-fun findSpawnHeight(): Int {
-    return chamber.indexOf(chamber.find { it.all { it == " " } }) + 3
 }
 
 private const val TEST = """>>><<><>><<<>><>>><<<>>><<<><<<>><>><<>>"""

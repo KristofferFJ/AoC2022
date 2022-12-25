@@ -90,7 +90,7 @@ private fun Moves.doRound() {
 private fun Point.isClear(): Boolean {
     if (this.y == -1) return false
     if (this.y == height + 1) return false
-    return grid.at(this).value == "." && blizzards.none { it.x == this.x && it.y == this.y }
+    return grid.at(this) == "." && blizzards.none { it.x == this.x && it.y == this.y }
 }
 
 
