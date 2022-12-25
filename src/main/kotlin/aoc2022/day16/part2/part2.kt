@@ -1,7 +1,7 @@
 package aoc2022.day16.part2
 
-import utils.ListUtils.Companion.removeDuplicates
-import utils.StringUtils.Companion.isIn
+import utils.CollectionUtils.Companion.isIn
+import utils.CollectionUtils.Companion.removeDuplicates
 
 data class Valve(
     val name: String,

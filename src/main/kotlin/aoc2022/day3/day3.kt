@@ -2,7 +2,7 @@ package aoc2022.day3
 
 import utils.FileReader
 import utils.LetterUtil.Companion.getLetterValue
-import utils.ListUtils.Companion.partitionListsInGroupsOfSize
+import utils.CollectionUtils.Companion.partitionListsInGroupsOfSize
 
 class Rucksack(val left: List<Char>, val right: List<Char>) {
     fun getIntersection(): Char {

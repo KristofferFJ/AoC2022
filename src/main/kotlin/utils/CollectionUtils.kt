@@ -1,9 +1,7 @@
 package utils
 
-import aoc2022.day24.part2.movesList
 
-
-class ListUtils {
+class CollectionUtils {
     companion object {
         fun <T> List<T>.partitionListsInGroupsOfSize(size: Int): List<List<T>> {
             return this.withIndex().groupBy {
@@ -49,7 +47,7 @@ class ListUtils {
         }
 
         fun List<Long>.prod(): Long {
-            var prod: Long = 1
+            var prod = 1L
             this.forEach { prod *= it }
             return prod
         }
@@ -60,6 +58,14 @@ class ListUtils {
             return prod
         }
 
+        fun <T> T.isIn(list: Collection<T>): Boolean {
+            return list.contains(this)
+        }
+
+        fun <T> T.isNotIn(list: Collection<T>): Boolean {
+            return !list.contains(this)
+        }
+
         fun List<List<String>>.printGrid(): String {
             return this.joinToString("\n") { it.joinToString("") }
         }
@@ -68,6 +74,10 @@ class ListUtils {
             val newList = this.toMutableList()
             newList.add(value)
             return newList
+        }
+
+        fun <K, V> Map<K, V>.fromValue(value: V): K {
+            return this.entries.first { it.value == value }.key
         }
 
         fun <T> MutableList<T>.removeDuplicates(duplicateCheck: (T) -> Any, sort: Comparator<(T)>? = null) {

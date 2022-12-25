@@ -1,13 +1,11 @@
 package aoc2022.day14.part1
 
 import utils.IntUtils.Companion.toward
-import utils.ListUtils.Companion.printGrid
+import utils.CollectionUtils.Companion.printGrid
 
 fun main() {
     val grid: MutableList<MutableList<String>> = IntRange(0, 1000).map {
-        IntRange(0, 1000).map {
-            " "
-        }.toMutableList()
+        IntRange(0, 1000).map { " " }.toMutableList()
     }.toMutableList()
     val wallInstructions = input.split("\n").map {
         it.split(" -> ")

@@ -1,6 +1,6 @@
 package aoc2022.day11.part2
 
-import utils.ListUtils.Companion.prod
+import utils.CollectionUtils.Companion.prod
 
 const val testMonkeyDivisor = 23 * 19 * 13 * 17
 const val monkeyDivisor = 2 * 7 * 13 * 5 * 3 * 19 * 11 * 17

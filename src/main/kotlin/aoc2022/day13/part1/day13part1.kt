@@ -1,6 +1,6 @@
 package aoc2022.day13.part1
 
-import utils.ListUtils.Companion.partitionByElement
+import utils.CollectionUtils.Companion.partitionByElement
 import utils.StringUtils.Companion.isInt
 import utils.StringUtils.Companion.toLists
 
@@ -48,7 +48,7 @@ fun compareValues(leftValues: List<String>, rightValues: List<String>): Boolean?
             return compareValues(left, rightValues[index])!!
         }
     }
-    if(rightValues.size > leftValues.size) return true
+    if (rightValues.size > leftValues.size) return true
     return null
 }
 
@@ -92,7 +92,8 @@ val inputTest = """
     [1,[2,[3,[4,[5,6,0]]]],8,9]
 """.trimIndent()
 
-val input = """[[4,[6,[9,0,1,10],[6,9],[0,5,9,8],[6,6]],9,[[8],[7,1,8,10,2],9,[9,0,5,1,9]]],[],[[1,7,7,[6]],10],[4,[5,4],9,[]]]
+val input =
+    """[[4,[6,[9,0,1,10],[6,9],[0,5,9,8],[6,6]],9,[[8],[7,1,8,10,2],9,[9,0,5,1,9]]],[],[[1,7,7,[6]],10],[4,[5,4],9,[]]]
 [[7],[[7,[1,8,3,9,0],[4,4,9,10,0],6,[2,3,7,8,6]],1]]
 
 [[],[0],[[]]]

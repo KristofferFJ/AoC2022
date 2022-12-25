@@ -1,6 +1,8 @@
 package aoc2022.day25
 
-import java.math.BigInteger
+import utils.CollectionUtils.Companion.fromValue
+import utils.CollectionUtils.Companion.isNotIn
+import utils.LongUtils.Companion.pow
 
 private const val TEST = """1=-0-2
 12111
@@ -138,7 +140,6 @@ private const val INPUT = """1-11=21=22-0=22
 111
 21-0=11-2-220=-="""
 
-val five = BigInteger.valueOf(5)
 val conversion = mapOf("2" to 2, "1" to 1, "0" to 0, "-" to -1, "=" to -2)
 fun main() {
     val sum = INPUT.split("\n").sumOf { it.toDecimal() }
@@ -147,44 +148,23 @@ fun main() {
 
 private fun String.toDecimal(): Long {
     return this.toList().reversed().mapIndexed { index, char ->
-        char.toDecimal().toBigInteger().times(five.pow(index))
-    }.sumOf { it.toLong() }
+        char.toDecimal().times(5L.pow(index))
+    }.sumOf { it }
 }
 
 private fun Long.toSnafu(): String {
-    val highestPower = IntRange(0, 20).first {
-        (this + 1).toBigInteger() < IntRange(0, it).sumOf { powers ->
-            five.pow(powers).times(BigInteger.valueOf(2))
+    var remaining = this
+    var result = ""
+    while (remaining > 0) {
+        var part = remaining.mod(5)
+        if (part.isNotIn(conversion.values)) {
+            part -= 5
+            remaining += 5
         }
+        result += conversion.fromValue(part)
+        remaining = remaining.div(5)
     }
-    return convert(this, highestPower, "")
-}
-
-private fun convert(remaining: Long, power: Int, snafu: String): String {
-    if (remaining == 0L) return snafu + IntRange(0, power).joinToString("") { "0" }
-    if (remaining > leadingOne(power)) {
-        return convert(remaining - 2 * five.pow(power).toLong(), power - 1, snafu + "2")
-    }
-    if (remaining < -leadingOne(power)) {
-        return convert(remaining + 2 * five.pow(power).toLong(), power - 1, "$snafu=")
-    }
-    if (remaining > leadingTwo(power - 1)) {
-        return convert(remaining - 1 * five.pow(power).toLong(), power - 1, snafu + "1")
-    }
-    if (remaining < -leadingTwo(power - 1)) {
-        return convert(remaining + 1 * five.pow(power).toLong(), power - 1, "$snafu-")
-    }
-    return convert(remaining, power - 1, snafu + "0")
-}
-
-private fun leadingOne(power: Int): Long {
-    return five.pow(power).toLong() + IntRange(0, power - 1).sumOf { five.pow(it).times(BigInteger.valueOf(2)) }
-        .toLong()
-}
-
-private fun leadingTwo(power: Int): Long {
-    return IntRange(0, power).sumOf { five.pow(it).times(BigInteger.valueOf(2)) }
-        .toLong()
+    return result.reversed()
 }
 
 private fun Char.toDecimal(): Long {

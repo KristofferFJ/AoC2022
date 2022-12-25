@@ -1,7 +1,7 @@
 package aoc2022.day5
 
-import utils.ListUtils.Companion.removeSlice
-import utils.ListUtils.Companion.transpose
+import utils.CollectionUtils.Companion.removeSlice
+import utils.CollectionUtils.Companion.transpose
 
 fun getTowers(): List<MutableList<String>> {
     val towers = "" +
@@ -17,7 +17,7 @@ fun getTowers(): List<MutableList<String>> {
     val transposed = towers.replace("[", "").replace("]", "").replace("    ", ",").replace(" ", ",").split("\n")
         .map { it.split(",") }.transpose()
     transposed.map { it.reverse() }
-    transposed.forEach { it.removeIf { it.isBlank() } }
+    transposed.forEach { it.removeAll { it.isBlank() } }
     return transposed
 }
 

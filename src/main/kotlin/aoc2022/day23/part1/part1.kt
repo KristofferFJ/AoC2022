@@ -156,4 +156,3 @@ fun makeProposition(field: Field, iteration: Int): Proposition? {
 
     return null
 }
-

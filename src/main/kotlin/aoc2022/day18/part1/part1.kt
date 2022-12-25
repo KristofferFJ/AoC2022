@@ -1,10 +1,8 @@
 package aoc2022.day18.part1
 
-import aoc2022.day15.part1.input
-
-data class Point(val x: Int, val y: Int, val z: Int)
-data class Side(val vectorStart: Point, val vectorEnd: Point)
-data class Cube(val x: Int, val y: Int, val z: Int) {
+private data class Point(val x: Int, val y: Int, val z: Int)
+private data class Side(val vectorStart: Point, val vectorEnd: Point)
+private data class Cube(val x: Int, val y: Int, val z: Int) {
     fun getSides(): Set<Side> {
         return setOf(
             Side(Point(x, y, z), Point(x + 1, y + 1, z)),
@@ -26,14 +24,12 @@ fun main() {
         )
     }
 
-    val groupedSides = cubes.flatMap { it.getSides() }
-        .groupBy { it }
+    val groupedSides = cubes.flatMap { it.getSides() }.groupBy { it }
     println(groupedSides.filter { it.value.size == 1 }.size)
 }
 
 private const val SUPER_TEST = """1,1,1
 2,1,1"""
-
 private const val TEST = """2,2,2
 1,2,2
 3,2,2
@@ -47,7 +43,6 @@ private const val TEST = """2,2,2
 3,2,5
 2,1,5
 2,3,5"""
-
 private const val INPUT = """13,2,10
 3,6,9
 11,17,9

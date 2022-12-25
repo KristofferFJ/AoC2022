@@ -1,6 +1,6 @@
 package aoc2022.day11.part1
 
-import utils.ListUtils.Companion.prod
+import utils.CollectionUtils.Companion.prod
 
 fun main() {
     IntRange(1, 20).forEach {

@@ -1,6 +1,6 @@
 package aoc2022.day17.part1
 
-import utils.ListUtils.Companion.printGrid
+import utils.CollectionUtils.Companion.printGrid
 
 val chamber: MutableList<MutableList<String>> = IntRange(0, 3500).map {
     IntRange(0, 6).map { " " }.toMutableList()

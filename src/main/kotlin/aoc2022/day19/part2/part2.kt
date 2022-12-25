@@ -1,6 +1,6 @@
 package aoc2022.day19.part2
 
-import utils.ListUtils.Companion.prod
+import utils.CollectionUtils.Companion.prod
 
 data class Blueprint(
     val oreRobotCost: Int, val clayRobotCost: Int,

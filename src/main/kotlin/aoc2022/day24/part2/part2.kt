@@ -1,9 +1,9 @@
 package aoc2022.day24.part2
 
 import utils.Grid
-import utils.ListUtils.Companion.removeDuplicates
+import utils.CollectionUtils.Companion.isIn
+import utils.CollectionUtils.Companion.removeDuplicates
 import utils.Point
-import utils.StringUtils.Companion.isIn
 
 private const val TEST = """#.######
 #>>.<^<#

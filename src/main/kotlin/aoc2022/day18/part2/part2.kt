@@ -1,10 +1,7 @@
 package aoc2022.day18.part2
 
-import java.util.concurrent.atomic.AtomicInteger
-
 private const val SUPER_TEST = """1,1,1
 2,1,1"""
-
 private const val TEST = """2,2,2
 1,2,2
 3,2,2
@@ -18,7 +15,6 @@ private const val TEST = """2,2,2
 3,2,5
 2,1,5
 2,3,5"""
-
 private const val INPUT = """13,2,10
 3,6,9
 11,17,9
@@ -2170,7 +2166,7 @@ private const val INPUT = """13,2,10
 12,6,17
 8,17,6"""
 
-val cubes = INPUT.split("\n").map { it.split(",") }.map {
+private val cubes = INPUT.split("\n").map { it.split(",") }.map {
     Cube(
         it[0].toInt(),
         it[1].toInt(),
@@ -2181,13 +2177,10 @@ val cubes = INPUT.split("\n").map { it.split(",") }.map {
 val maxX = cubes.maxBy { it.x }.x
 val maxY = cubes.maxBy { it.y }.y
 val maxZ = cubes.maxBy { it.z }.z
-
-val counter = AtomicInteger(0)
-val goodPaths = mutableSetOf<Cube>()
-val badPaths = mutableSetOf<Cube>()
-
-data class Point(val x: Int, val y: Int, val z: Int)
-data class Side(val vectorStart: Point, val vectorEnd: Point) {
+private val goodPaths = mutableSetOf<Cube>()
+private val badPaths = mutableSetOf<Cube>()
+private data class Point(val x: Int, val y: Int, val z: Int)
+private data class Side(val vectorStart: Point, val vectorEnd: Point) {
     fun isFacingOut(): Boolean {
         val cube = listOf(
             Cube(vectorStart.x, vectorStart.y, vectorStart.z),
@@ -2205,7 +2198,7 @@ data class Side(val vectorStart: Point, val vectorEnd: Point) {
     }
 }
 
-data class Cube(val x: Int, val y: Int, val z: Int) {
+private data class Cube(val x: Int, val y: Int, val z: Int) {
     fun getSides(): Set<Side> {
         return setOf(
             Side(Point(x, y, z), Point(x + 1, y + 1, z)),

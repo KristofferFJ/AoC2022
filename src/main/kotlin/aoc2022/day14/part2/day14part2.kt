@@ -1,7 +1,7 @@
 package aoc2022.day14.part2
 
 import utils.IntUtils.Companion.toward
-import utils.ListUtils.Companion.printGrid
+import utils.CollectionUtils.Companion.printGrid
 
 fun main() {
     val wallInstructions = inputTest.split("\n").map {

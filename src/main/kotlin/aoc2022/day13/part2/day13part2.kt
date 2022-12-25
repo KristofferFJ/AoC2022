@@ -1,6 +1,6 @@
 package aoc2022.day13.part2
 
-import utils.ListUtils.Companion.prod
+import utils.CollectionUtils.Companion.prod
 import utils.StringUtils.Companion.isInt
 import utils.StringUtils.Companion.toLists
 
