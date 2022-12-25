@@ -56,7 +56,7 @@ fun main() {
         moveBlizzards()
         currentMoves.forEach {
             it.doRound()
-            movesList.removeDuplicates { listOf(it.atStart, it.atEnd, it.position) }
+            movesList.removeDuplicates({ listOf(it.atStart, it.atEnd, it.position) })
         }
 
         val atEndpoint = movesList.filter { it.position == endPoint }

@@ -50,7 +50,7 @@ fun main() {
         currentMoves.forEach {
             if (it.doRound()) finished = true
             moves.removeAll { it.size < moves.maxBy { it.size }.size }
-            moves.removeDuplicates { it.last() }
+            moves.removeDuplicates({ it.last() })
         }
     }
     println(moves.filter { it.last() == endPoint })

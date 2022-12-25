@@ -70,13 +70,17 @@ class ListUtils {
             return newList
         }
 
-        fun <T> MutableList<T>.removeDuplicates(duplicateCheck: (T) -> Any) {
+        fun <T> MutableList<T>.removeDuplicates(duplicateCheck: (T) -> Any, sort: Comparator<(T)>? = null) {
             val grouped = this.groupBy { duplicateCheck(it) }.filter { it.value.size > 1 }
             grouped.values.forEach { duplicates ->
                 duplicates.forEach { this.remove(it) }
             }
             grouped.values.forEach {
-                this.add(it[0])
+                if(sort != null) {
+                    this.add(it.sortedWith(sort).last())
+                } else {
+                    this.add(it.last())
+                }
             }
         }
     }
