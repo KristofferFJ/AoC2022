@@ -1,9 +1,7 @@
 package aoc2022.day10.part2
 
-import aoc2022.day10.input
-
 fun main() {
-    val input = input.split("\n")
+    val input = INPUT.split("\n")
 
     fun partTwo() {
         var spritePosition = 0
@@ -49,3 +47,5 @@ fun main() {
 
     partTwo()
 }
+
+private const val INPUT = """"""

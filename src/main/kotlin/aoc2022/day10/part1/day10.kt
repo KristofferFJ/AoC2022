@@ -1,9 +1,7 @@
 package aoc2022.day10.part1
 
-import aoc2022.day10.input
-
 fun main() {
-    val input = input.split("\n")
+    val input = INPUT.split("\n")
 
     fun partOne() {
         var startValue = 1
@@ -42,3 +40,5 @@ fun main() {
 
     partOne()
 }
+
+private const val INPUT = """"""
