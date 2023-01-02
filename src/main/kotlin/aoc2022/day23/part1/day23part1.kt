@@ -4,8 +4,6 @@ import utils.Field
 import utils.Grid
 import utils.Point
 
-private const val INPUT = """"""
-
 val grid = Grid(INPUT)
 val directions = listOf("N", "S", "W", "E")
 

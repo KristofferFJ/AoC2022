@@ -22,5 +22,3 @@ fun main() {
         originalList[(it + indexOfZero) % length].number
     })
 }
-
-private const val INPUT = """"""

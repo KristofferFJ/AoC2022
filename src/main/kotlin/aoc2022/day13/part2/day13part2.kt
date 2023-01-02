@@ -55,5 +55,3 @@ fun orderPackets(packets: List<String>): List<String> {
         }
     }
 }
-
-private const val INPUT = """"""

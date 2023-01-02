@@ -1,6 +1,5 @@
 package aoc2022.day04
 
-private const val INPUT = """"""
 val sections: List<Section> = INPUT.split("\n").map {
     it.split(",").map {
         it.split("-")

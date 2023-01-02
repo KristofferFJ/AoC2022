@@ -85,5 +85,3 @@ fun main() {
         getAvailablePointsOnLine(sensorBeacons, it)
     }
 }
-
-private const val INPUT = """"""

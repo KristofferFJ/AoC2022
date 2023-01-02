@@ -40,5 +40,3 @@ fun main() {
 
     partOne()
 }
-
-private const val INPUT = """"""

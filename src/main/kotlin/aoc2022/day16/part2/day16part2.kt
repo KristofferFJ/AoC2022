@@ -158,5 +158,3 @@ fun createValves(): List<Valve> {
 fun List<Valve>.find(name: String): Valve {
     return this.first { it.name == name }
 }
-
-private const val INPUT = """"""

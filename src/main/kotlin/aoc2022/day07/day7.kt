@@ -67,5 +67,3 @@ data class Directory(
         return flatDirectory
     }
 }
-
-private const val INPUT = """"""

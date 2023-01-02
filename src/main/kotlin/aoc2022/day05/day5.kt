@@ -49,5 +49,3 @@ fun main() {
     println(partOne())
     println(partTwo())
 }
-
-private const val INPUT = """"""

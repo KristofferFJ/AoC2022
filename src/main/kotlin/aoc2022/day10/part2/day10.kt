@@ -47,5 +47,3 @@ fun main() {
 
     partTwo()
 }
-
-private const val INPUT = """"""

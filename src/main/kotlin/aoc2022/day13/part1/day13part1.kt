@@ -65,5 +65,3 @@ fun compareValues(leftValue: String, rightValue: String): Boolean? {
     }
     return compareValues(leftValue.toLists(), rightValue.toLists())
 }
-
-private const val INPUT = """"""

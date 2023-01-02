@@ -40,5 +40,3 @@ fun main() {
     println(dropSand())
     println(grid.printGrid())
 }
-
-private const val INPUT = """"""

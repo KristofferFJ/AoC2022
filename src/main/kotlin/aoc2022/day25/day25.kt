@@ -4,8 +4,6 @@ import utils.CollectionUtils.Companion.fromValue
 import utils.CollectionUtils.Companion.isNotIn
 import utils.LongUtils.Companion.pow
 
-private const val INPUT = """"""
-
 private val conversion = mapOf("2" to 2, "1" to 1, "0" to 0, "-" to -1, "=" to -2)
 private fun main() {
     val sum = INPUT.split("\n").sumOf { it.toDecimal() }

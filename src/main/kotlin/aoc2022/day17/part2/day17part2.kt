@@ -93,5 +93,3 @@ fun spawnShape(shapeNumber: Int, height: Int): List<Point> {
         else -> throw Exception("")
     }
 }
-
-private const val INPUT = """"""

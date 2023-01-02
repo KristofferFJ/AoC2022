@@ -27,5 +27,3 @@ fun main() {
     val groupedSides = cubes.flatMap { it.getSides() }.groupBy { it }
     println(groupedSides.filter { it.value.size == 1 }.size)
 }
-
-private const val INPUT = """"""

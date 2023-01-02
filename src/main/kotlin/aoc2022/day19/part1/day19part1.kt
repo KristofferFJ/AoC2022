@@ -113,5 +113,3 @@ fun doRound(strategies: Set<Strategy>): Set<Strategy> {
 
     return newStrategies
 }
-
-private const val INPUT = """"""

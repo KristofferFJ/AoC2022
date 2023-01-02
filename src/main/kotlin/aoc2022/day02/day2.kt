@@ -1,6 +1,5 @@
 package aoc2022.day02
 
-private const val INPUT = """"""
 fun getRounds(): List<List<String>> {
     return INPUT.split("\n").map { it.split(" ") }
 }

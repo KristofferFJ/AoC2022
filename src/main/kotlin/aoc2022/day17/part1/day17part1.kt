@@ -119,5 +119,3 @@ fun spawnShape(shapeNumber: Int, spawnHeight: Int) {
 fun findSpawnHeight(): Int {
     return chamber.indexOf(chamber.find { it.all { it == " " } }) + 3
 }
-
-private const val INPUT = """"""

@@ -41,5 +41,3 @@ fun main() {
         ).size
     )
 }
-
-private const val INPUT = """"""

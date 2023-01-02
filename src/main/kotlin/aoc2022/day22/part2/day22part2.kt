@@ -190,5 +190,3 @@ fun main() {
         ).sum()
     )
 }
-
-private const val INPUT = """"""

@@ -80,5 +80,3 @@ data class Grid(
         visited.add(this.tail9.copy())
     }
 }
-
-private const val INPUT = """"""

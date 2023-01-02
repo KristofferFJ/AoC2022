@@ -77,5 +77,3 @@ fun main() {
     val rootMonkey = monkeys.find { it.name == "root" }!!
     println(rootMonkey.printMonkey(monkeys))
 }
-
-private const val INPUT = """"""

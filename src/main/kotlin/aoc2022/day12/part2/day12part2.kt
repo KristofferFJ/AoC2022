@@ -88,5 +88,3 @@ fun main() {
 
     createPaths()
 }
-
-private const val INPUT = """"""

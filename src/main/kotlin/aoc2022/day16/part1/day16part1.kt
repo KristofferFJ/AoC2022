@@ -100,5 +100,3 @@ fun createValves(): List<Valve> {
         Valve(it[0], it[1].toInt(), it[2].split(",").map { it.trim() })
     }
 }
-
-private const val INPUT = """"""

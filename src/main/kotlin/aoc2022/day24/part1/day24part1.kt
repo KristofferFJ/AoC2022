@@ -1,12 +1,11 @@
 package aoc2022.day24.part1
 
-import utils.Grid
 import utils.CollectionUtils.Companion.addReturn
-import utils.CollectionUtils.Companion.removeDuplicates
-import utils.Point
 import utils.CollectionUtils.Companion.isIn
+import utils.CollectionUtils.Companion.removeDuplicates
+import utils.Grid
+import utils.Point
 
-private const val INPUT = """"""
 
 private val grid = Grid(INPUT)
 private val length = grid.rows[0].size - 1

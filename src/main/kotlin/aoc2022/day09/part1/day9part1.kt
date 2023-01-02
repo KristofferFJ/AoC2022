@@ -63,5 +63,3 @@ data class Grid(
         visited.add(this.tail.copy())
     }
 }
-
-private const val INPUT = """"""

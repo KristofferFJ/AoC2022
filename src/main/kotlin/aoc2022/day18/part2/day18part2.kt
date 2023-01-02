@@ -1,7 +1,5 @@
 package aoc2022.day18.part2
 
-private const val INPUT = """"""
-
 private val cubes = INPUT.split("\n").map { it.split(",") }.map {
     Cube(
         it[0].toInt(),

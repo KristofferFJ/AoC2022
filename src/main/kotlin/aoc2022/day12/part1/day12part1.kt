@@ -83,5 +83,3 @@ fun main() {
     println(distances.map {it.joinToString(",")}.joinToString("\n"))
     println(findEndpoint().getDistance())
 }
-
-private const val INPUT = """"""
